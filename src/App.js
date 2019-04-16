@@ -6,13 +6,12 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import PrivateRoute from './components/PrivateRoute';
-import Sites from './pages/Sites';
-import Login from './pages/Login';
-import SiteManagement from './pages/SiteManagement';
+import Sites from './containers/Sites';
+import Login from './containers/Login';
+import SiteManagement from './containers/SiteManagement';
 import { setToken } from "./netlify/api";
 import configureStore, { history } from './store'
 import { Provider } from 'react-redux';
-import { getSites } from "./actions/actionsCreators";
 
 ipcRenderer.on('oauth-reply', (event, data) => {
   localStorage.setItem('netlify-token', data);

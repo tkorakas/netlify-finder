@@ -7,7 +7,7 @@ const ipcRenderer = electron.ipcRenderer;
 export default class Login extends Component {
 
   showLoginWindow() {
-    ipcRenderer.send('github-oauth', 'getToken');
+    ipcRenderer.send('netlify-oauth');
   }
 
   render() {

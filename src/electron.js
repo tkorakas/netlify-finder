@@ -36,7 +36,7 @@ app.on("activate", () => {
   }
 });
 
-electron.ipcMain.on('github-oauth', (event, arg) => {
+electron.ipcMain.on('netlify-oauth', (event, arg) => {
   const windowParams = {
     alwaysOnTop: false,
     autoHideMenuBar: false,
@@ -53,7 +53,7 @@ electron.ipcMain.on('github-oauth', (event, arg) => {
     redirectUri: 'http://localhost'
   };
 
-  const netlify = auth(oauthConfig, windowParams)
+  const netlify = auth(oauthConfig, windowParams);
   netlify.getAccessToken({})
     .then(token => {
       event.sender.send('oauth-reply', token);

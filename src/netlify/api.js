@@ -6,6 +6,8 @@ export const setToken = token => axios.defaults.headers.common['Authorization'] 
 
 export const getSites = () => axios.get(`${API}/sites`);
 
+export const getSite = id => axios.get(`${API}/sites/${id}`);
+
 export const getFiles = siteId => axios.get(`${API}/sites/${siteId}/files`);
 
 export const deploySite = (data, siteId) => axios.post(`${API}/sites/${siteId}/deploys`, data);

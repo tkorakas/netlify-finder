@@ -40,7 +40,7 @@ class SiteManagement extends Component {
         const formattedFiles = files.map(file => file.replace(sitePath, '')).filter(file => file !== '');
         this.setState({ files: formattedFiles });
       });
-    })
+    });
   }
 
   render() {
