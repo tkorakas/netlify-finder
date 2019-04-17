@@ -7,8 +7,13 @@
     "react-start": "parcel -p 3000 index.html",
     "react-build": "parcel build index.html",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron . \"",
-    "test": "jest",
+    "test": "jest --verbose --color",
     "test:watch": "yarn test -- --watch"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ]
   },
   "dependencies": {
     "antd": "^3.16.1",
@@ -29,14 +34,14 @@
     "sha1-file": "^1.0.4"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.7.1",
     "babel-plugin-import": "^1.11.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "electron": "^4.1.3",

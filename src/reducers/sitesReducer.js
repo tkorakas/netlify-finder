@@ -1,14 +1,14 @@
+import { types } from '../actions/types';
 
 const sitesReducer = (state = [], action) => {
   switch (action.type) {
-    case 'GET_SITES':
-      console.log(action, 'GET_SITES ACTION')
-      return [...action.sites];
-    case 'DELETE_SITE':
-      const sites = state.filter(site => site.id !== action.id);
+    case types.GET_SITES:
+      return [...action.payload];
+    case types.DELETE_SITE:
+      const sites = state.filter(site => site.id !== action.payload);
       return sites;
     default:
-      return state
+      return state;
   }
 };
 

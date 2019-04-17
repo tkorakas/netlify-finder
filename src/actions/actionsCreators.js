@@ -1,10 +1,11 @@
 import { getSites as getSitesRequest, createSite as createSiteRequest, deleteSite as deleteSiteRequest } from '../netlify/api';
+import { types } from '../actions/types';
 
 // Get sites
 export function getSites() {
   return (dispatch) => {
     getSitesRequest()
-      .then(res => dispatch({ type: 'GET_SITES', sites: res.data }))
+      .then(res => dispatch({ type: types.GET_SITES, payload: res.data }))
       .catch(error => dispatch({ type: 'GET_SITES_ERROR', error }));
   }
 }
@@ -25,7 +26,7 @@ export function createSite(values) {
 export function deleteSite(id) {
   return (dispatch) => {
     deleteSiteRequest(id)
-      .then(res => dispatch({ type: 'DELETE_SITE', id }))
+      .then(res => dispatch({ type: types.DELETE_SITE, id }))
       .catch(error => dispatch({ type: 'DELETE_SITE_ERROR', error }));
   }
 }
