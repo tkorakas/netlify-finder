@@ -8,12 +8,12 @@ describe('Settings Reducer', () => {
   });
 
   it('Should return new state if receive a type with default state', () => {
-    const state = settingsReducer(undefined, {type: types.SHOW_NEW_SITE_DIALOG, newSiteModalVisible: true});
+    const state = settingsReducer(undefined, {type: types.SHOW_NEW_SITE_DIALOG, payload: true});
     expect(state).toEqual({...defaultState, newSiteModalVisible: true});
   });
 
   it('Should return new state if receive a type with existing state', () => {
-    const state = settingsReducer({...defaultState, newSiteModalVisible: true}, {type: types.SHOW_NEW_SITE_DIALOG, newSiteModalVisible: false});
+    const state = settingsReducer({...defaultState, newSiteModalVisible: true}, {type: types.SHOW_NEW_SITE_DIALOG, payload: false});
     expect(state).toEqual({...defaultState, newSiteModalVisible: false});
   });
 });

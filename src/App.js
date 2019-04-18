@@ -21,7 +21,7 @@ ipcRenderer.on('oauth-reply', (event, data) => {
 const defaultState = {
   settings: {
     newSiteModalVisivle: false,
-    sitesLoading: false
+    sitesLoading: true
   },
   // requiredFiles: [],
   sites: [],
@@ -32,8 +32,6 @@ const defaultState = {
 };
 
 const store = configureStore(defaultState);
-console.log(store.getState(), 'initial state');
-store.subscribe(() => console.log(store.getState()))
 
 class App extends Component {
   constructor(props) {

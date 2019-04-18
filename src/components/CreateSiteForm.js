@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, Form, Input, Checkbox, Divider } from 'antd';
+import { connect } from 'react-redux';
+import { createSite } from '../actions/actionsCreators'
 
-
-const CreateSiteForm = ({ handleSubmit, form: { getFieldDecorator, validateFields } }) => {
+const CreateSiteForm = ({ form: { getFieldDecorator, validateFields, resetFields }, createSite }) => {
   return (
     <Form onSubmit={(e) => {
       e.preventDefault();
@@ -11,7 +12,8 @@ const CreateSiteForm = ({ handleSubmit, form: { getFieldDecorator, validateField
           return;
         }
 
-        handleSubmit(fieldsValue);
+        createSite(fieldsValue);
+        resetFields();
       });
     }}>
       <Form.Item label="Name">
@@ -69,7 +71,6 @@ const CreateSiteForm = ({ handleSubmit, form: { getFieldDecorator, validateField
           <Checkbox>Optimize</Checkbox>
         )}
       </Form.Item>
-
       <Button type="primary" htmlType="submit">Create site</Button>
     </Form>
   );
@@ -77,4 +78,9 @@ const CreateSiteForm = ({ handleSubmit, form: { getFieldDecorator, validateField
 
 const WrappedCreateSiteFormForm = Form.create({ name: 'new-site' })(CreateSiteForm);
 
-export default WrappedCreateSiteFormForm;
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  createSite: values => dispatch(createSite(values))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedCreateSiteFormForm);

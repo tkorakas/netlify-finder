@@ -7,6 +7,8 @@ const sitesReducer = (state = [], action) => {
     case types.DELETE_SITE:
       const sites = state.filter(site => site.id !== action.payload);
       return sites;
+    case types.SITE_CREATED:
+      return [action.payload, ...state];
     default:
       return state;
   }
