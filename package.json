@@ -31,7 +31,8 @@
     "redux-electron-ipc": "^1.2.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "sha1-file": "^1.0.4"
+    "sha1-file": "^1.0.4",
+    "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

@@ -4,7 +4,7 @@ const ipcRenderer = electron.ipcRenderer;
 import {
   Route,
 } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter, push } from 'connected-react-router';
 import PrivateRoute from './components/PrivateRoute';
 import Sites from './containers/Sites';
 import Login from './containers/Login';
@@ -44,7 +44,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="ui container">
+      <div className="ui container" style={{maxWidth: 900}}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <PrivateRoute exact path='/' component={Sites} />
