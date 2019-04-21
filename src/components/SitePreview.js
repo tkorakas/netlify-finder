@@ -2,8 +2,8 @@ import React from "react";
 import { Card, Button, Popconfirm } from "antd";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import { siteType } from '../types';
+import PropTypes from "prop-types";
+import { siteType } from "../types";
 import { deleteSite } from "../actions/actionsCreators";
 const { Meta } = Card;
 
@@ -37,7 +37,7 @@ const SitePreview = ({ site, deleteSite }) => (
 
 SitePreview.propTypes = {
   site: PropTypes.shape(siteType),
-  deleteSite: PropTypes.func,
+  deleteSite: PropTypes.func
 };
 
 const mapStateToProps = state => ({});

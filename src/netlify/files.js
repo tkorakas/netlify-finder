@@ -1,5 +1,5 @@
 // const fs = require('fs');
-const sha1 = window.require('sha1-file');
+const sha1 = window.require("sha1-file");
 
 export const hashFiles = (folder, files) => {
   let filesObject = {};
@@ -11,10 +11,9 @@ export const hashFiles = (folder, files) => {
 };
 
 export const readFile = () => {
-  fs.readFile('./user-app/index.html', 'utf8', function (err, data) {
+  fs.readFile("./user-app/index.html", "utf8", function(err, data) {
     if (err) {
       return console.log(err);
     }
-
   });
-}
+};

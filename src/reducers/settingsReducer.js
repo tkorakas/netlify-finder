@@ -1,4 +1,4 @@
-import { types } from '../actions/types';
+import { types } from "../actions/types";
 
 export const defaultState = {
   newSiteModalVisible: false,
@@ -14,7 +14,7 @@ const settingsReducer = (state = defaultState, action) => {
     case types.SITE_CREATED:
       return { ...state, newSiteModalVisible: false };
     default:
-      return state
+      return state;
   }
 };
 

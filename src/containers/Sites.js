@@ -3,7 +3,7 @@ import { Modal, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getSites, deleteSite, toggleModal } from "../actions/actionsCreators";
-import { siteType } from '../types';
+import { siteType } from "../types";
 import { push } from "connected-react-router";
 import SitePreview from "../components/SitePreview";
 import CreateSiteForm from "../components/CreateSiteForm";
@@ -66,9 +66,7 @@ class Sites extends Component {
 }
 
 Sites.propTypes = {
-  sites: PropTypes.arrayOf(
-    PropTypes.shape(siteType)
-  ),
+  sites: PropTypes.arrayOf(PropTypes.shape(siteType)),
   modalVisible: PropTypes.bool,
   sitesLoading: PropTypes.bool,
   getSites: PropTypes.func,

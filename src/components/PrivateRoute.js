@@ -1,11 +1,14 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
-const PrivateRoute = ({component: Component, ...rest}) => (
-  <Route {...rest} render={(props) => {
-    const authToken = localStorage.getItem('netlify-token');
-    return authToken ? <Component {...props} /> : <Redirect to='/login' />
-  }}/>
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => {
+      const authToken = localStorage.getItem("netlify-token");
+      return authToken ? <Component {...props} /> : <Redirect to="/login" />;
+    }}
+  />
 );
 
 export default PrivateRoute;
