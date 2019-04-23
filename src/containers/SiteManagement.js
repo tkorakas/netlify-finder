@@ -197,8 +197,8 @@ class SiteManagement extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  selectedFolder: state.sitesReducer.selectedPath
+const mapStateToProps = ({ settings }) => ({
+  selectedFolder: settings.selectedPath
 });
 
 const mapDispatchToProps = dispatch => ({});

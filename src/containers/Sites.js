@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getSites, deleteSite, toggleModal } from "../actions/actionsCreators";
 import { siteType } from "../types";
-import { push } from "connected-react-router";
 import SitePreview from "../components/SitePreview";
 import CreateSiteForm from "../components/CreateSiteForm";
 import Loader from "../components/Loader";
@@ -20,7 +19,8 @@ class Sites extends Component {
       modalVisible,
       showModal,
       hideModal,
-      sitesLoading
+      sitesLoading,
+      deleteSite
     } = this.props;
 
     if (sitesLoading) {
@@ -49,7 +49,7 @@ class Sites extends Component {
           }}
         >
           {sites.map(site => (
-            <SitePreview key={site.id} site={site} />
+            <SitePreview key={site.id} site={site} deleteSite={deleteSite} />
           ))}
           <Modal
             title="Create new Netlify site"
@@ -84,7 +84,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getSites: () => dispatch(getSites()),
     showModal: () => dispatch(toggleModal(true)),
-    hideModal: () => dispatch(toggleModal(false))
+    hideModal: () => dispatch(toggleModal(false)),
+    deleteSite: id => dispatch(deleteSite(id))
   };
 };
 

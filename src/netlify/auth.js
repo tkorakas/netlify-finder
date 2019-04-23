@@ -1,13 +1,10 @@
-"use strict";
-const Promise = require("pinkie-promise");
 const nodeUrl = require("url");
 const electron = require("electron");
 const BrowserWindow = electron.BrowserWindow || electron.remote.BrowserWindow;
 
 module.exports = function(config, windowParams) {
-  function getAccessToken(opts) {
-    opts = opts || {};
-
+  function getAccessToken() {
+    // const url = '';
     var url =
       "https://app.netlify.com/authorize?client_id=8f950daaf3ca497da38c1349af513a788859321e74c66d0103ed412de2e8aec4&response_type=token&redirect_uri=http://localhost&state=0.5779583767358962";
 
@@ -20,7 +17,7 @@ module.exports = function(config, windowParams) {
       authWindow.show();
 
       authWindow.on("closed", () => {
-        reject(new Error("window was closed by user"));
+        reject(new Error("Window was closed by user"));
       });
 
       function onCallback(url) {
