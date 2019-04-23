@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { Modal, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getSites, deleteSite, toggleModal } from "../actions/actionsCreators";
+import {
+  getSites,
+  deleteSite,
+  toggleModal,
+  logout
+} from "../actions/actionsCreators";
 import { siteType } from "../types";
 import SitePreview from "../components/SitePreview";
 import CreateSiteForm from "../components/CreateSiteForm";
@@ -31,10 +36,7 @@ class Sites extends Component {
       <div style={{ width: "100vw" }}>
         <div style={{ margin: "20px" }}>
           <Button onClick={() => showModal()}>New site</Button>
-          <Button
-            type="danger"
-            onClick={() => this.setState({ modalVisivle: true })}
-          >
+          <Button type="danger" onClick={this.props.logout}>
             Logout
           </Button>
         </div>
@@ -85,7 +87,8 @@ const mapDispatchToProps = dispatch => {
     getSites: () => dispatch(getSites()),
     showModal: () => dispatch(toggleModal(true)),
     hideModal: () => dispatch(toggleModal(false)),
-    deleteSite: id => dispatch(deleteSite(id))
+    deleteSite: id => dispatch(deleteSite(id)),
+    logout: () => dispatch(logout())
   };
 };
 

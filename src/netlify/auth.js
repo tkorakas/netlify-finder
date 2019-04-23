@@ -1,80 +1,65 @@
 const nodeUrl = require("url");
 const electron = require("electron");
 const BrowserWindow = electron.BrowserWindow || electron.remote.BrowserWindow;
+let state = null;
+let authWindow;
 
-module.exports = function(config, windowParams) {
-  function getAccessToken() {
-    // const url = '';
-    var url =
-      "https://app.netlify.com/authorize?client_id=8f950daaf3ca497da38c1349af513a788859321e74c66d0103ed412de2e8aec4&response_type=token&redirect_uri=http://localhost&state=0.5779583767358962";
+function getAccessToken(config, windowParams) {
+  state = Math.random();
+  const { authorizationUrl, clientId, redirectUri } = config;
+  const url = `${authorizationUrl}?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&state=${state}`;
+  return new Promise(function(resolve, reject) {
+    authWindow = new BrowserWindow(
+      windowParams || { "use-content-size": true }
+    );
 
-    return new Promise(function(resolve, reject) {
-      const authWindow = new BrowserWindow(
-        windowParams || { "use-content-size": true }
-      );
+    authWindow.loadURL(url);
+    authWindow.show();
 
-      authWindow.loadURL(url);
-      authWindow.show();
-
-      authWindow.on("closed", () => {
-        reject(new Error("Window was closed by user"));
-      });
-
-      function onCallback(url) {
-        if (!url) return;
-        var code = null;
-        var url_parts = nodeUrl.parse(url, true);
-        if (url_parts.hash) {
-          var query = handleAccessToken(url_parts.hash);
-          console.log(query);
-          var code = query.access_token;
-          var error = query.error;
-        }
-
-        if (error !== undefined) {
-          reject(error);
-          authWindow.removeAllListeners("closed");
-          setImmediate(function() {
-            authWindow.close();
-          });
-        } else if (code) {
-          resolve(code);
-          authWindow.removeAllListeners("closed");
-          setImmediate(function() {
-            authWindow.close();
-          });
-        }
-      }
-
-      authWindow.webContents.on("will-navigate", (event, url) => {
-        onCallback(url);
-      });
-
-      authWindow.webContents.on(
-        "did-get-redirect-request",
-        (event, oldUrl, newUrl) => {
-          onCallback(newUrl);
-        }
-      );
+    authWindow.on("closed", () => {
+      reject("Window was closed by user");
     });
+    authWindow.webContents.on("will-navigate", (event, url) => {
+      getAccessTokenFromUrl(url, resolve, reject);
+    });
+
+    authWindow.webContents.on(
+      "did-get-redirect-request",
+      (event, oldUrl, newUrl) => {
+        getAccessTokenFromUrl(newUrl, resolve, reject);
+      }
+    );
+  });
+}
+
+function getAccessTokenFromUrl(url, resolve, reject) {
+  if (!url) return;
+  const urlParts = nodeUrl.parse(url, true);
+
+  if (!urlParts.hash) {
+    reject("No hash");
   }
 
-  // The access token is returned in the hash part of the document.location
-  //   #access_token=1234&response_type=token
-  function handleAccessToken(hash) {
-    const response = hash
-      .replace(/^#/, "")
-      .split("&")
-      .reduce((result, pair) => {
-        const keyValue = pair.split("=");
-        result[keyValue[0]] = keyValue[1];
-        return result;
-      }, {});
+  const query = handleAccessToken(urlParts.hash);
 
-    return response;
+  if (query.error) {
+    reject(query.error);
   }
 
-  return {
-    getAccessToken: getAccessToken
-  };
-};
+  resolve(query.access_token);
+  authWindow.removeAllListeners("closed");
+  authWindow.close();
+}
+
+function handleAccessToken(hash) {
+  return hash
+    .replace(/^#/, "")
+    .split("&")
+    .reduce((result, pair) => {
+      const keyValue = pair.split("=");
+      result[keyValue[0]] = keyValue[1];
+      return result;
+    }, {});
+}
+
+module.exports = getAccessToken;

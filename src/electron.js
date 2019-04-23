@@ -4,7 +4,8 @@ const BrowserWindow = electron.BrowserWindow;
 const dialog = electron.dialog;
 const path = require("path");
 const isDev = require("electron-is-dev");
-const auth = require('./netlify/auth');
+const auth = require("./netlify/auth");
+const authConfig = require("./config/netlify");
 
 let mainWindow;
 
@@ -16,7 +17,7 @@ function createWindow() {
 
   mainWindow.loadURL(
     isDev
-      ? "http://localhost:3000"
+      ? "http://localhost:9999"
       : `file://${path.join(__dirname, "../dist/index.html")}`
   );
   mainWindow.on("closed", () => (mainWindow = null));
@@ -36,7 +37,7 @@ app.on("activate", () => {
   }
 });
 
-electron.ipcMain.on('netlify-oauth', (event, arg) => {
+electron.ipcMain.on("netlify-oauth", (event, arg) => {
   const windowParams = {
     alwaysOnTop: false,
     autoHideMenuBar: false,
@@ -45,26 +46,21 @@ electron.ipcMain.on('netlify-oauth', (event, arg) => {
     }
   };
 
-  const oauthConfig = {
-    clientId: '8f950daaf3ca497da38c1349af513a788859321e74c66d0103ed412de2e8aec4',
-    clientSecret: '1f30616859cf803f9ad3055a477eeaa222dfe559ae52bc998064c393ccfe1584',
-    authorizationUrl: 'https://app.netlify.com/authorize',
-    useBasicAuthorizationHeader: false,
-    redirectUri: 'http://localhost'
-  };
-
-  const netlify = auth(oauthConfig, windowParams);
-  netlify.getAccessToken({})
+  auth(authConfig, windowParams)
     .then(token => {
-      event.sender.send('oauth-reply', token);
+      event.sender.send("oauth-reply", token);
     })
-    .catch(console.log)
+    .catch(console.log);
 });
 
-electron.ipcMain.on('file-dialog', (event, arg) => {
-  dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory']
-  }, (filePaths) => {
-    event.sender.send('file-dialog', filePaths);
-  });
+electron.ipcMain.on("file-dialog", (event, arg) => {
+  dialog.showOpenDialog(
+    mainWindow,
+    {
+      properties: ["openDirectory"]
+    },
+    filePaths => {
+      event.sender.send("file-dialog", filePaths);
+    }
+  );
 });

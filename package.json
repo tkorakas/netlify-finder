@@ -4,9 +4,9 @@
   "main": "src/electron.js",
   "license": "MIT",
   "scripts": {
-    "react-start": "parcel -p 3000 index.html",
+    "react-start": "parcel -p 9999 index.html",
     "react-build": "parcel build index.html",
-    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron . \"",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:9999 && electron . \"",
     "test": "jest --verbose --color",
     "test:watch": "yarn test -- --watch"
   },

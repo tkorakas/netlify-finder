@@ -1,22 +1,20 @@
 import React, { Component } from "react";
-const electron = window.require('electron');
+const electron = window.require("electron");
 const ipcRenderer = electron.ipcRenderer;
-import {
-  Route,
-} from 'react-router-dom';
-import { ConnectedRouter, push } from 'connected-react-router';
-import PrivateRoute from './components/PrivateRoute';
-import Sites from './containers/Sites';
-import Login from './containers/Login';
-import SiteManagement from './containers/SiteManagement';
+import { Route } from "react-router-dom";
+import { ConnectedRouter, push } from "connected-react-router";
+import PrivateRoute from "./components/PrivateRoute";
+import Sites from "./containers/Sites";
+import Login from "./containers/Login";
+import SiteManagement from "./containers/SiteManagement";
 import { setToken } from "./netlify/api";
-import configureStore, { history } from './store'
-import { Provider } from 'react-redux';
+import configureStore, { history } from "./store";
+import { Provider } from "react-redux";
 
-ipcRenderer.on('oauth-reply', (event, data) => {
-  localStorage.setItem('netlify-token', data);
-  setToken(data);
-});
+// ipcRenderer.on('oauth-reply', (event, data) => {
+//   localStorage.setItem('netlify-token', data);
+//   setToken(data);
+// });
 
 const defaultState = {
   settings: {
@@ -24,7 +22,7 @@ const defaultState = {
     sitesLoading: true
   },
   // requiredFiles: [],
-  sites: [],
+  sites: []
   // uploading: false,
   // uploadingFile: '',
   // loading: true,
@@ -36,7 +34,7 @@ const store = configureStore(defaultState);
 class App extends Component {
   constructor(props) {
     super(props);
-    const token = localStorage.getItem('netlify-token');
+    const token = localStorage.getItem("netlify-token");
     if (token) {
       setToken(token);
     }
@@ -44,12 +42,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="ui container" style={{maxWidth: 900}}>
+      <div className="ui container" style={{ maxWidth: 900 }}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
-            <PrivateRoute exact path='/' component={Sites} />
-            <PrivateRoute exact path='/site/:id' component={SiteManagement} />
-            <Route path='/login' component={Login} />
+            <PrivateRoute exact path="/" component={Sites} />
+            <PrivateRoute exact path="/site/:id" component={SiteManagement} />
+            <Route path="/login" component={Login} />
           </ConnectedRouter>
         </Provider>
       </div>
